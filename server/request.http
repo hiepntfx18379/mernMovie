@@ -1,0 +1,89 @@
+# auth: sign-up, sign-in
+# user: add favorite, get favorite, remove, update: password, getUser
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+  "username": "appwatch",
+  "displayName": "Hiep_si_menly",
+  "password":"123456789",
+  "confirmPassword": "123456789"
+}
+
+###
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "appwatch",
+  "password":"123456789"
+}
+
+###
+GET http://localhost:5000/api/user/getInfo
+
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDgyNDMzZTA0YTc1YThkZjBiMWU0OCIsImlhdCI6MTY4MjQ1MTcwNCwiZXhwIjoxNjgyNDk0OTA0fQ.D1q3e_-5dkhOgNRu7pzP1gm58f2tacSNpqTC6TVLwCA
+
+###
+POST http://localhost:5000/api/user/update
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDgyNDMzZTA0YTc1YThkZjBiMWU0OCIsImlhdCI6MTY4MjQ1MjQ5MiwiZXhwIjoxNjgyNDk1NjkyfQ.zDFLHtFsw4afMV1A5s7IG86BvDSdnTFNyITh39gy174
+
+{
+  "password": "123456",
+  "newPassword": "789456"
+}
+
+###
+POST http://localhost:5000/api/user/favorite
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDhhMjhiMjM1ZDNkMTE2OGY0MDAyNSIsImlhdCI6MTY4MjQ5MTgwMiwiZXhwIjoxNjgyNTM1MDAyfQ.GgoD0GBoFsw6grpE1GEWqtz9q1Yx9fVihEsOe7O5D30
+
+{
+  "user": "6448a28b235d3d1168f40025",
+  "mediaType": "movie",
+  "mediaId": "157336",
+  "mediaTitle": "Interstellar",
+  "mediaPoster": "/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
+  "mediaRate": "9.8"
+}
+
+###
+GET http://localhost:5000/api/user/favorite
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDhhMjhiMjM1ZDNkMTE2OGY0MDAyNSIsImlhdCI6MTY4MjQ5MTgwMiwiZXhwIjoxNjgyNTM1MDAyfQ.GgoD0GBoFsw6grpE1GEWqtz9q1Yx9fVihEsOe7O5D30
+###
+
+# media: getList, search, genres, getdetail, 
+GET http://localhost:5000/api/media/genres?mediaType=movie
+
+###
+GET http://localhost:5000/api/media/search/tv?&page=1&include_adult=false
+
+###
+GET http://localhost:5000/api/media/getDetail/movie/157336
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDhhMjhiMjM1ZDNkMTE2OGY0MDAyNSIsImlhdCI6MTY4MjQ4MTgyNiwiZXhwIjoxNjgyNTI1MDI2fQ.CFvTwgpVDgAO9HFabQnnQit2v1JSYCE3LIEh8jVDjcA
+
+###
+
+# review: create, get, remove
+POST http://localhost:5000/api/review/postReview
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDhhMjhiMjM1ZDNkMTE2OGY0MDAyNSIsImlhdCI6MTY4MjQ5MTgwMiwiZXhwIjoxNjgyNTM1MDAyfQ.GgoD0GBoFsw6grpE1GEWqtz9q1Yx9fVihEsOe7O5D30
+
+{
+  "user": "6448a28b235d3d1168f40025",
+  "content": "film is very very hayyyy",
+    "mediaType": "movie",
+    "mediaId": "157336",
+    "mediaTitle": "Interstellar",
+    "mediaPoster": "/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg"
+}
+
+###
+GET http://localhost:5000/api/review/getReview
+###
+DELETE  http://localhost:5000/api/review/delete/6448d6bb0e35fadc9274521d
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDhhMjhiMjM1ZDNkMTE2OGY0MDAyNSIsImlhdCI6MTY4MjQ5MTgwMiwiZXhwIjoxNjgyNTM1MDAyfQ.GgoD0GBoFsw6grpE1GEWqtz9q1Yx9fVihEsOe7O5D30
