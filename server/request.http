@@ -4,8 +4,8 @@ POST http://localhost:5000/api/auth/register
 Content-Type: application/json
 
 {
-  "username": "appwatch",
-  "displayName": "Hiep_si_menly",
+  "username": "meomeomeo",
+  "displayName": "women_menly",
   "password":"123456789",
   "confirmPassword": "123456789"
 }
@@ -16,23 +16,24 @@ Content-Type: application/json
 
 {
   "username": "appwatch",
-  "password":"123456789"
+  "password":"789456abc"
 }
 
 ###
 GET http://localhost:5000/api/user/getInfo
 
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDgyNDMzZTA0YTc1YThkZjBiMWU0OCIsImlhdCI6MTY4MjQ1MTcwNCwiZXhwIjoxNjgyNDk0OTA0fQ.D1q3e_-5dkhOgNRu7pzP1gm58f2tacSNpqTC6TVLwCA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ0OGEyOGIyMzVkM2QxMTY4ZjQwMDI1IiwiaWF0IjoxNjgyOTYxODAxLCJleHAiOjE2ODMwMDUwMDF9.Fb9E5QEkky_V3mOhaXc1aSzRbFVEgFomsb0kVZSP-qg
 
 ###
-POST http://localhost:5000/api/user/update
+PUT http://localhost:5000/api/user/update
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDgyNDMzZTA0YTc1YThkZjBiMWU0OCIsImlhdCI6MTY4MjQ1MjQ5MiwiZXhwIjoxNjgyNDk1NjkyfQ.zDFLHtFsw4afMV1A5s7IG86BvDSdnTFNyITh39gy174
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ0OGEyOGIyMzVkM2QxMTY4ZjQwMDI1IiwiaWF0IjoxNjgyOTYxODAxLCJleHAiOjE2ODMwMDUwMDF9.Fb9E5QEkky_V3mOhaXc1aSzRbFVEgFomsb0kVZSP-qg
 
 {
-  "password": "123456",
-  "newPassword": "789456"
+  "password": "123456789",
+  "newPassword": "789456abc",
+  "confirmNewPassword": "789456abc"
 }
 
 ###
@@ -56,13 +57,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDhhMjhiM
 ###
 
 # media: getList, search, genres, getdetail, 
-GET http://localhost:5000/api/media/genres?mediaType=movie
+GET http://localhost:5000/api/movie/popular?page=1
 
 ###
-GET http://localhost:5000/api/media/search/tv?&page=1&include_adult=false
+GET http://localhost:5000/api/movie/genres
 
 ###
-GET http://localhost:5000/api/media/getDetail/movie/157336
+GET http://localhost:5000/api/movie/getDetail/157336
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDhhMjhiMjM1ZDNkMTE2OGY0MDAyNSIsImlhdCI6MTY4MjQ4MTgyNiwiZXhwIjoxNjgyNTI1MDI2fQ.CFvTwgpVDgAO9HFabQnnQit2v1JSYCE3LIEh8jVDjcA
 

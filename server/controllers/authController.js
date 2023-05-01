@@ -17,9 +17,13 @@ export const register = async (req, res) => {
 
     await user.save();
 
-    const token = jsonwebtoken.sign({ id: user.id }, process.env.TOKEN_SECRET, {
-      expiresIn: "12h",
-    });
+    const token = jsonwebtoken.sign(
+      { data: user.id },
+      process.env.TOKEN_SECRET,
+      {
+        expiresIn: "12h",
+      }
+    );
 
     responseHandler.created(res, {
       token,
@@ -38,21 +42,18 @@ export const login = async (req, res) => {
     const user = await userModel
       .findOne({ username })
       .select("username password salt displayName id");
-    if (!user)
-      return responseHandler.badRequest(
-        res,
-        "Username or password was wrong!!!"
-      );
+    if (!user) return responseHandler.badRequest(res, "User not found!!!");
 
     if (!user.validPassword(password))
-      return responseHandler.badRequest(
-        res,
-        "Username or password was wrong!!!"
-      );
+      return responseHandler.badRequest(res, "Password was wrong!!!");
 
-    const token = jsonwebtoken.sign({ id: user.id }, process.env.TOKEN_SECRET, {
-      expiresIn: "12h",
-    });
+    const token = jsonwebtoken.sign(
+      { data: user.id },
+      process.env.TOKEN_SECRET,
+      {
+        expiresIn: "12h",
+      }
+    );
 
     user.password = undefined;
     user.salt = undefined;

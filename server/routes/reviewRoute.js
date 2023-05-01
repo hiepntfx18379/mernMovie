@@ -1,5 +1,5 @@
 import express from "express";
-import { verifyToken } from "../utils/verifyToken.js";
+import verifyToken from "../middleware/token.middleware.js";
 import {
   createReview,
   getReviewOfUser,
@@ -8,11 +8,11 @@ import {
 import { body } from "express-validator";
 import requestHandler from "../handlers/request.handler.js";
 
-const reviewRoute = express.Router();
+const reviewRoute = express.Router({ mergeParams: true });
 
 reviewRoute.post(
-  "/postReview",
-  verifyToken,
+  "/",
+  verifyToken.auth,
   body("mediaId")
     .exists()
     .withMessage("mediaId is required")
@@ -42,8 +42,8 @@ reviewRoute.post(
   createReview
 );
 
-reviewRoute.delete("/delete/:reviewId", verifyToken, removeReview);
+reviewRoute.delete("/:reviewId", verifyToken.auth, removeReview);
 
-reviewRoute.get("/getReview", verifyToken, getReviewOfUser);
+reviewRoute.get("/", verifyToken.auth, getReviewOfUser);
 
 export default reviewRoute;

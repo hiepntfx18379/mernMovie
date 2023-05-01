@@ -9,6 +9,7 @@ export const addFavorite = async (req, res) => {
     });
 
     if (isFavorite) return responseHandler.ok(res, isFavorite);
+
     const favorite = new favoriteModel({
       ...req.body,
       user: req.user.id,

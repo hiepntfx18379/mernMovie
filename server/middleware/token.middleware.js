@@ -2,35 +2,30 @@ import jsonwebtoken from "jsonwebtoken";
 import responseHandler from "../handlers/response.handler.js";
 import userModel from "../models/userMode.js";
 
-const auth = async (req, res, next) => {
+const tokenDecode = (req) => {
   try {
-    const bearerHeader = req.headers["authorization"];
-    if (bearerHeader) {
-      const token = bearerHeader.split(" ")[1];
-      if (!token) return responseHandler.unauthorize(res);
-
-      // xac thuc token from client
-      const decoded = jsonwebtoken.verify(
-        token,
-        process.env.TOKEN_SECRET,
-        (err, data) => {
-          console.log("data: ", data);
-        }
-      );
-
-      if (!decoded) return responseHandler.unauthorize(res);
-
-      const user = await userModel.findById(decoded.data);
-      console.log("ok2", user);
-      if (!user) responseHandler.unauthorize(res);
-      req.user = user;
-      next();
+    const token = req.cookies.access_token;
+    console.log(token);
+    if (!token) {
+      return responseHandler.unauthorize(res);
     }
-
-    return false;
+    return jsonwebtoken.verify(token, process.env.TOKEN_SECRET);
   } catch {
     return false;
   }
 };
 
-export default { auth };
+const auth = async (req, res, next) => {
+  const tokenUser = tokenDecode(req);
+  console.log(tokenUser);
+  if (!tokenUser) return responseHandler.unauthorize(res);
+
+  const user = await userModel.findById(tokenUser.data);
+  console.log(user);
+  if (!user) responseHandler.unauthorize(res);
+
+  req.user = user;
+  next();
+};
+
+export default { auth, tokenDecode };

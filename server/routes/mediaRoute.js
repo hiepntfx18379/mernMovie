@@ -5,13 +5,12 @@ import {
   search,
   getDetail,
 } from "../controllers/mediaController.js";
-import { verifyToken } from "../utils/verifyToken.js";
 
-const mediaRoute = express.Router();
+const mediaRoute = express.Router({ mergeParams: true });
 
-mediaRoute.get("/getList/:mediaType/:category", getList);
 mediaRoute.get("/genres", getGenres);
-mediaRoute.get("/search/:mediaType", search);
-mediaRoute.get("/getDetail/:mediaType/:media_id", verifyToken, getDetail);
+mediaRoute.get("/search", search);
+mediaRoute.get("/getDetail/:media_id", getDetail);
+mediaRoute.get("/:mediaCategory", getList);
 
 export default mediaRoute;

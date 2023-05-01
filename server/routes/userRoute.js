@@ -1,6 +1,6 @@
 import express from "express";
 import { getInfo, updatePassword } from "../controllers/userController.js";
-import { verifyToken } from "../utils/verifyToken.js";
+import verifyToken from "../middleware/token.middleware.js";
 import { body } from "express-validator";
 import requestHandler from "../handlers/request.handler.js";
 import {
@@ -11,9 +11,9 @@ import {
 
 const userRoute = express.Router();
 
-userRoute.post(
+userRoute.put(
   "/update",
-  verifyToken,
+  verifyToken.auth,
   body("password")
     .exists()
     .withMessage("password is required")
@@ -38,11 +38,12 @@ userRoute.post(
   updatePassword
 );
 
-userRoute.get("/getInfo", verifyToken, getInfo);
-userRoute.get("/favorite", verifyToken, getFavoriteOfUser);
+userRoute.get("/getInfo", verifyToken.auth, getInfo);
+userRoute.get("/favorite", verifyToken.auth, getFavoriteOfUser);
+
 userRoute.post(
   "/favorite",
-  verifyToken,
+  verifyToken.auth,
   body("mediaType")
     .exists()
     .withMessage("media type is required")
@@ -59,6 +60,7 @@ userRoute.post(
   requestHandler.validate,
   addFavorite
 );
-userRoute.delete("/favorite/:favoriteId", verifyToken, removeFavorite);
+
+userRoute.delete("/favorite/:favoriteId", verifyToken.auth, removeFavorite);
 
 export default userRoute;

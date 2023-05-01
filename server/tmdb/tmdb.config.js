@@ -10,7 +10,7 @@ const baseURL = process.env.API_BASE_LINK;
 
 const getUrl = (endPoint, params) => {
   const queryString = new URLSearchParams(params);
-  console.log(`link: ${baseURL}${endPoint}?api_key=${keyApi}&${queryString}`);
+  console.log(`${baseURL}${endPoint}?api_key=${keyApi}&${queryString}`);
   return `${baseURL}${endPoint}?api_key=${keyApi}&${queryString}`;
 };
 

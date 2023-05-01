@@ -13,7 +13,7 @@ export const updatePassword = async (req, res) => {
 
     if (!user) return responseHandler.notFound(res);
     if (!user.validPassword(password))
-      return responseHandler.badRequest(res, "Username or password was wrong");
+      return responseHandler.badRequest(res, "Password was wrong");
 
     user.setPassword(newPassword);
     await user.save();

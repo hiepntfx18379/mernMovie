@@ -16,7 +16,6 @@ const tmdbEndpoints = {
   // https://api.themoviedb.org/3/tv/{tv_id}?api_key=<<api_key>>&language=en-US
 
   mediaDetail: ({ mediaType, media_id }) => {
-    console.log("endPoint:", { mediaType, media_id });
     return tmdbConfig.getUrl(`${mediaType}/${media_id}`);
   },
 

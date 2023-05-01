@@ -3,10 +3,10 @@ import reviewModel from "../models/reviewModel.js";
 
 export const createReview = async (req, res) => {
   try {
-    const { reviewId } = req.params;
+    const { movieId } = req.params;
     const review = new reviewModel({
       user: req.user.id,
-      reviewId,
+      movieId,
       ...req.body,
     });
 
