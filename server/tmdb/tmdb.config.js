@@ -9,7 +9,7 @@ const keyApi = process.env.TMDB_KEY_PRIVATE;
 const baseURL = process.env.API_BASE_LINK;
 
 const getUrl = (endPoint, params) => {
-  const queryString = new URLSearchParams(params);
+  const queryString = new URLSearchParams(params)
   return `${baseURL}${endPoint}?api_key=${keyApi}&${queryString}`;
 };
 

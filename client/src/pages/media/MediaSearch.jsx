@@ -4,7 +4,19 @@ import { LoadingButton } from "@mui/lab";
 import MediaPage from "../../components/main/slide/loadMore/MediaPage";
 import uiConfigs from "../../config/ui.config";
 import { toast } from "react-toastify";
-import { Box, Button, Stack, TextField, Toolbar } from "@mui/material";
+import {
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+  TextField,
+  Toolbar,
+} from "@mui/material";
+import { useSelector } from "react-redux";
+import { appStateSelector } from "../../redux/selector";
 
 const mediaTypes = ["movie", "tv", "people"];
 let timer;
@@ -16,6 +28,16 @@ const MediaSearch = () => {
   const [mediaType, setMedidaType] = useState(mediaTypes[0]);
   const [medias, setMedias] = useState([]);
   const [page, setPage] = useState(1);
+  const [listLang, setListLang] = useState([]);
+  const [language, setLanguage] = useState("ja");
+  const [year, setYear] = useState(2020);
+  const { genresList } = useSelector(appStateSelector);
+  const [genres, setGenres] = useState("");
+
+  const yearArr = [];
+  for (let i = 2015; i < 2024; i++) {
+    yearArr.push(i);
+  }
 
   const search = useCallback(async () => {
     setOnSearch(true);
@@ -24,22 +46,45 @@ const MediaSearch = () => {
       mediaType,
       query,
       page,
+      language,
+      year,
     });
 
     setOnSearch(false);
+
     if (err) toast.error(err.message);
     if (response) {
+      if (genres !== "") {
+        response.data.results = [...response.data.results].filter((m) =>
+          m.genre_ids.includes(genres),
+        );
+      }
+      console.log(response.data.results);
       if (page > 1) setMedias((m) => [...m, ...response.data.results]);
       else setMedias([...response.data.results]);
     }
-  }, [mediaType, query, page]);
+  }, [mediaType, query, page, language, year, genres]);
+
+  useEffect(() => {
+    const getListLang = async () => {
+      const response = await fetch("http://localhost:5000/api/auth/lang");
+      const listLang = await response.json();
+      const listLangUsable = listLang.filter((m) =>
+        ["Tiếng Việt", "English", "日本語", "한국어/조선말"].includes(m.name),
+      );
+
+      setListLang(listLangUsable);
+    };
+
+    getListLang();
+  }, []);
 
   useEffect(() => {
     if (query.trim().length === 0) {
       setMedias([]);
       setPage(1);
     } else search();
-  }, [search, query, mediaType, page]);
+  }, [search, query, mediaType, page, language, year]);
 
   // reset and reload mediaType
   useEffect(() => {
@@ -86,6 +131,57 @@ const MediaSearch = () => {
                 {item}
               </Button>
             ))}
+
+            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+              <InputLabel id="demo-select-small-label">Year</InputLabel>
+              <Select
+                labelId="demo-select-small-label"
+                id="demo-select-small"
+                value={year}
+                label="Year"
+                onChange={(e) => setYear(e.target.value)}
+              >
+                {yearArr.map((y) => (
+                  <MenuItem value={y} key={y}>
+                    {y}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+              <InputLabel id="demo-select-small-label">Language</InputLabel>
+              <Select
+                labelId="demo-select-small-label"
+                id="demo-select-small"
+                value={language}
+                label="Language"
+                onChange={(e) => setLanguage(e.target.value)}
+              >
+                {listLang.map((y, index) => (
+                  <MenuItem value={y.iso_639_1} key={index}>
+                    {y.english_name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
+              <InputLabel id="demo-select-small-label">Genres</InputLabel>
+              <Select
+                labelId="demo-select-small-label"
+                id="demo-select-small"
+                value={genres}
+                label="Genres"
+                onChange={(e) => setGenres(e.target.value)}
+              >
+                {genresList.map((y) => (
+                  <MenuItem value={y.id} key={y.id}>
+                    {y.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Stack>
           <TextField
             color="success"

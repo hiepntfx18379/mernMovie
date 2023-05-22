@@ -50,9 +50,9 @@ const tmdbEndpoints = {
   },
 
   // GET /search/movie or /search/tv
-  // https://api.themoviedb.org/3/search/tv?api_key=<<api_key>>&language=en-US&include_adult=false&page=1
-  mediaSearch: ({ mediaType, query, page }) => {
-    return tmdbConfig.getUrl(`search/${mediaType}`, { query, page });
+  // https://api.themoviedb.org/3/search/movie?api_key=[key]&language=en-US&page=1&include_adult=false&year=2014&query=mm
+  mediaSearch: ({ mediaType, query, page, language, year }) => {
+    return tmdbConfig.getUrl(`search/${mediaType}`, { query, page, language, year });
   },
 
   // GET /person/{person_id}
@@ -66,6 +66,11 @@ const tmdbEndpoints = {
   personMedias: ({ personId }) => {
     return tmdbConfig.getUrl(`person/${personId}/combined_credits`);
   },
+
+  language: (lang) => {
+    return tmdbConfig.getUrl(lang)
+  }
+
 };
 
 export default tmdbEndpoints;

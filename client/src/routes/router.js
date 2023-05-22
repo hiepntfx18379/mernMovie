@@ -7,6 +7,7 @@ import ProtectedPage from "../components/common/ProtectedPage";
 import PasswordUpdate from "../pages/user/UpdatePassword";
 import FavoriteList from "../pages/favorite/FavoriteList";
 import ReviewList from "../pages/review/ReviewList";
+import NotFound from "../pages/NotFound/NotFound";
 
 // setip router v6
 export const routesGenaral = {
@@ -29,6 +30,7 @@ const routes = [
     state: "person.detail",
   },
   { path: "/search", element: <MediaSearch />, state: "search" },
+  { path: "/404", element: <NotFound />, state: "page not found" },
   {
     path: "/password-update",
     element: (

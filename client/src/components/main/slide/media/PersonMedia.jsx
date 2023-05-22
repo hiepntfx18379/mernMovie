@@ -4,11 +4,13 @@ import personApi from "../../../../api/modules/person.api";
 import MediaItem from "./Mediaitem";
 import { toast } from "react-toastify";
 import { Button, Grid } from "@mui/material";
+import PaginationPage from "../../pagination/Pagination";
 
 const PersonMedia = ({ personId }) => {
   const [medias, setMedias] = useState([]);
   const [filteredMedias, setFilteredMedias] = useState([]);
   const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(0);
   const skip = 8;
 
   const getReleaseDate = (media) => {
@@ -25,7 +27,6 @@ const PersonMedia = ({ personId }) => {
 
       if (err) toast.error(err.message);
       if (response) {
-        console.log(response);
         const mediaSorted = response.data.cast.sort(
           (a, b) => getReleaseDate(b) - getReleaseDate(a),
         );
@@ -37,13 +38,13 @@ const PersonMedia = ({ personId }) => {
     getMedia();
   }, [personId]);
 
-  const onLoadMore = () => {
-    setFilteredMedias([
-      ...filteredMedias,
-      ...[...medias].splice(page * skip, skip),
-    ]);
-    setPage(page + 1);
-  };
+  // const onLoadMore = () => {
+  //   setFilteredMedias([
+  //     ...filteredMedias,
+  //     ...[...medias].splice(page * skip, skip),
+  //   ]);
+  //   setPage(page + 1);
+  // };
 
   return (
     <>
@@ -54,9 +55,11 @@ const PersonMedia = ({ personId }) => {
           </Grid>
         ))}
       </Grid>
-      {filteredMedias.length < medias.length && (
+      {/* {filteredMedias.length < medias.length && (
         <Button onClick={onLoadMore}>Load more</Button>
-      )}
+      )} */}
+
+      <PaginationPage setPage={setPage} totalPage={medias.length / 20} />
     </>
   );
 };

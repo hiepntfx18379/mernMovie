@@ -5,6 +5,7 @@ const get = async (url) => {
     headers: {
       Accept: "application/json",
       "Accept-Encoding": "identity",
+      "Set-Cookie": "cross-site-cookie=whatever; SameSite=None; Secure"
     },
   });
   return response.data;

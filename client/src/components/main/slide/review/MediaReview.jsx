@@ -18,7 +18,6 @@ import TextAvatar from "./TextAvatar";
 import ReviewItem from "./ReviewItem";
 
 const MediaReview = ({ reviews, mediaType, media, user }) => {
-  console.log(user);
   const [listReviews, setListReviews] = useState([]);
   const [filteredReviews, setFilterReview] = useState([]);
   const [page, setPage] = useState(1);

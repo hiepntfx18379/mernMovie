@@ -17,7 +17,11 @@ import { useEffect, useRef, useState } from "react";
 import { loadingSelector } from "../../redux/selector";
 import { setLoading } from "../../redux/loading/loadingSlide";
 import { setModalStatus } from "../../redux/modal/modalSlide";
-import { removeFavorite, addFavorite } from "../../redux/user/userSlide";
+import {
+  removeFavorite,
+  addFavorite,
+  setListFavorites,
+} from "../../redux/user/userSlide";
 import { toast } from "react-toastify";
 import CaseSlide from "../../components/main/slide/CastSlide";
 import favoriteUtils from "../../ulis/favorite.util";
@@ -30,7 +34,6 @@ import MediaReview from "../../components/main/slide/review/MediaReview";
 const MediaDetail = () => {
   const { mediaType, media_id } = useParams();
   const { user, listFavorites } = useSelector(userSelector);
-
   const [media, setMedia] = useState("");
   const [isFavorite, setIsFavorite] = useState(false);
   const [onRequest, setOnRequest] = useState(false);
@@ -46,6 +49,7 @@ const MediaDetail = () => {
         media_id,
       });
       dispatch(setLoading(false));
+
       if (response) {
         setMedia(response.data);
         setIsFavorite(response.data.isFavorite);
@@ -91,11 +95,11 @@ const MediaDetail = () => {
     setOnRequest(true);
 
     const favorite = listFavorites.find(
-      (f) => f.data.mediaId.toString() === media.id.toString(),
+      (f) => f.mediaId.toString() === media.id.toString(),
     );
 
     const { response, err } = await favoriteApi.remove({
-      favId: favorite.data.id,
+      favId: favorite.id,
     });
 
     setOnRequest(false);

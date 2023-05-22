@@ -16,15 +16,27 @@ const MainLayout = () => {
   const dispatch = useDispatch();
   const { user } = useSelector(userSelector);
 
-  // useEffect(() => {
-  //   const authUser = async () => {
-  //     const { response, err } = await userApi.getInfo();
-  //     if (response) console.log("res:", response);
-  //     if (err) console.log("err");
-  //   };
+  useEffect(() => {
+    const authUser = async () => {
+      const { response, err } = await userApi.getInfo();
+      if (response) dispatch(setUser(response));
+      if (err) dispatch(setUser(null));
+    };
 
-  //   authUser();
-  // }, [dispatch]);
+    authUser();
+  }, [dispatch]);
+
+  useEffect(() => {
+    const getFRavorites = async () => {
+      const { response, err } = await favoriteApi.getList();
+
+      if (response) dispatch(setListFavorites(response));
+      if (err) toast.error(err.message);
+    };
+
+    if (user) getFRavorites();
+    else dispatch(setListFavorites([]));
+  }, [user, dispatch]);
 
   return (
     <>

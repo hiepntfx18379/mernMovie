@@ -7,9 +7,11 @@ import { routesGenaral } from "../../../../routes/router";
 import favoriteUtils from "../../../../ulis/favorite.util";
 import { useSelector } from "react-redux";
 import { userSelector } from "../../../../redux/selector";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Button, Chip, Stack, Typography } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import CircularRate from "../../../common/CircularRate";
+import MediaVideoItem from "../videos/MediaVideoItem";
+import { genreApi } from "../../../../api/modules/genre.api";
 
 const Mediaitem = ({ media, mediaType }) => {
   const { listFavorites } = useSelector(userSelector);
@@ -46,7 +48,7 @@ const Mediaitem = ({ media, mediaType }) => {
       <Link
         to={
           mediaType !== "people"
-            ? routesGenaral.mediaDetail(mediaType, media.id || media.mediaId)
+            ? routesGenaral.mediaDetail(mediaType, media.mediaId || media.id)
             : routesGenaral.person(media.id)
         }
       >
@@ -56,7 +58,9 @@ const Mediaitem = ({ media, mediaType }) => {
             paddingTop: "160%",
             marginBottom: "180px",
             "&:hover .media-info": { opacity: 1, bottom: 0 },
-            "&:hover .media-back-drop, &:hover .media-play-btn": { opacity: 1 },
+            "&:hover .media-back-drop, &:hover .media-play-btn": {
+              opacity: 1,
+            },
             color: "primary.contrastText",
           }}
         >
@@ -128,6 +132,26 @@ const Mediaitem = ({ media, mediaType }) => {
                 <Stack spacing={{ xs: 1, md: 2 }}>
                   {rate && <CircularRate value={rate} />}
                   <Typography>{releaseDate}</Typography>
+
+                  {/* <Stack spacing={2} direction="row" alignItems="center">
+                    {[...media.genre_ids]
+                      .splice(0, 1)
+                      .map((genresId, index) => (
+                        <Chip
+                          sx={{
+                            marginTop: "10px",
+                          }}
+                          width="20%"
+                          variant="filled"
+                          color="primary"
+                          key={index}
+                          label={
+                            genres.find((e) => e.id === genresId) &&
+                            genres.find((e) => e.id === genresId).name
+                          }
+                        />
+                      ))}
+                  </Stack> */}
 
                   <Typography
                     variant="body1"

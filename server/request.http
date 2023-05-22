@@ -4,7 +4,7 @@ POST http://localhost:5000/api/auth/register
 Content-Type: application/json
 
 {
-  "username": "meomeomeo",
+  "username": "women_menly",
   "displayName": "women_menly",
   "password":"123456789",
   "confirmPassword": "123456789"
@@ -15,8 +15,8 @@ POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-  "username": "appwatch",
-  "password":"789456abc"
+  "username": "women_menly",
+  "password":"123456789"
 }
 
 ###
@@ -39,7 +39,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ0OGEyO
 ###
 POST http://localhost:5000/api/user/favorite
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ0OGEyOGIyMzVkM2QxMTY4ZjQwMDI1IiwiaWF0IjoxNjgzNjkwNzM0LCJleHAiOjE2ODM3MzM5MzR9.G9rcfDD4rUnGnakHXwhOOLPtHNHModwsNMVLn9Gajr4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ2NWUyZjY0MGQyOGFiOGQ3NDczOTMyIiwiaWF0IjoxNjg0Mzk4ODM4LCJleHAiOjE2ODQ0NDIwMzh9.Q76HFNiAkzFXVpndlmlku4z-7Rqq35ujczthQ4E-t1E
 
 {
   "mediaType": "movie",
@@ -94,3 +94,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiNjQ0OGEyO
 GET http://localhost:5000/api/person/id/15218
 ###
 GET http://localhost:5000/api/person/15218/medias
+
+###
+GET http://localhost:5000/api/movie/followGenres/28
+
+###
+GET http://localhost:5000/api/auth/lang

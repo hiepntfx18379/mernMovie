@@ -38,7 +38,6 @@ const UpdatePassword = () => {
   });
 
   const onUpdate = async (value) => {
-    console.log(value);
     if (onRequest) return;
     setOnRequest(true);
 

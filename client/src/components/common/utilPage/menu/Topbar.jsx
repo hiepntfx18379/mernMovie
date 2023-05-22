@@ -7,7 +7,6 @@ import {
   Box,
   Button,
   IconButton,
-  Paper,
   Stack,
   Toolbar,
   useScrollTrigger,
@@ -25,7 +24,6 @@ import Sidebar from "./Sidebar";
 
 const ScrollAppbar = ({ children, window }) => {
   const { themeMode } = useSelector(themeModeSelector);
-
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 50,
@@ -60,6 +58,7 @@ const Topbar = () => {
   };
 
   const clickToggleSidebar = () => setSideBarOpen(!sidebarOpen);
+
   return (
     <>
       <Sidebar open={sidebarOpen} toggleSidebar={clickToggleSidebar} />

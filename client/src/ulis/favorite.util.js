@@ -1,7 +1,13 @@
 const favoriteUtils = {
   check: ({ listFavorites, mediaId }) => {
-    return listFavorites.find((f) => f.data.mediaId.toString() === mediaId.toString()) !==
-      undefined}
+    try{
+      if(listFavorites.data.lenth > 0)
+        return  [...listFavorites.data].find((f) => `${f.mediaId}` === `${mediaId}`)
+      
+      return false;
+    }catch{
+      return false
+    }
+  }
 };
-
 export default favoriteUtils;

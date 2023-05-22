@@ -5,8 +5,8 @@ const mediaEndpoint = {
   list: ({ mediaType, mediaCategory, page }) =>
     `${mediaType}/${mediaCategory}?page=${page}`,
   detail: ({ mediaType, media_id }) => `${mediaType}/getDetail/${media_id}`,
-  search: ({ mediaType, query, page }) =>
-    `${mediaType}/search?query=${query}&page=${page}`,
+  search: ({ mediaType, query, page, language, year }) => {
+     return `${mediaType}/search?language=${language}&query=${query}&page=${page}&year=${year}`},
 };
 
 const mediaApi = {
@@ -34,12 +34,11 @@ const mediaApi = {
     }
   },
 
-  search: async ({ mediaType, query, page }) => {
+  search: async ({ mediaType, query, page,language="kr", year="2020" }) => {
     try {
       const response = await publicClient.get(
-        mediaEndpoint.search({ mediaType, query, page })
+        mediaEndpoint.search({ mediaType, page, language, year, query })
       );
-
       return { response };
     } catch (err) {
       return { err };

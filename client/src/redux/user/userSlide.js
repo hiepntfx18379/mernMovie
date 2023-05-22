@@ -1,11 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current} from "@reduxjs/toolkit";
+import {original} from 'immer'
 
 export const userSlide = createSlice({
   name: "user",
   initialState: {
-    user: null,
-    listFavorites: [],
-  },
+  user: null,
+  listFavorites: []
+},
   reducers: {
     setUser: (state, action) => {
       if (action.payload === null) {
@@ -20,14 +21,13 @@ export const userSlide = createSlice({
       state.listFavorites = action.payload;
     },
     removeFavorite: (state, action) => {
-      console.log( action.payload);
-      const { mediaId } = action.payload;
-      state.listFavorites = [...state.listFavorites].filter(
-        (f) => f.data.mediaId.toString() !== mediaId.toString()
+      const {mediaId} = action.payload;
+      state.listFavorites = [current(state.listFavorites)].filter(
+        (f) => `${f.mediaId}` !== `${mediaId}`
       );
     },
-    addFavorite: (state, action) => {
-      state.listFavorites.push(action.payload);
+    addFavorite: (state, {payload}) => {
+      state.listFavorites = [payload.data, current(state.listFavorites)]
     },
   },
 });

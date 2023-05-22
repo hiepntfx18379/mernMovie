@@ -2,17 +2,31 @@ import React, { useEffect, useMemo, useState } from "react";
 import tmdbConfigs from "../../api/configs/tmdb.config";
 import mediaApi from "../../api/modules/media.api";
 import uiConfigs from "../../config/ui.config";
-import usePrevious from "../../hooks/usePrevious.hook";
 import HeroSlide from "../../components/main/slide/HeroSlide";
 import MediaPage from "../../components/main/slide/loadMore/MediaPage";
-import { setAppState } from "../../redux/app/appSlide";
+import {
+  getGenres,
+  setAppState,
+  setMovieGenresList,
+} from "../../redux/app/appSlide";
 import { setLoading } from "../../redux/loading/loadingSlide";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { Box, Stack } from "@mui/system";
-import { Button, Typography } from "@mui/material";
+
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from "@mui/material";
 import { LoadingButton } from "@mui/lab";
+import PaginationPage from "../../components/main/pagination/Pagination";
+import { appStateSelector } from "../../redux/selector";
+import { useCallback } from "react";
 
 const MediaList = () => {
   const { mediaType } = useParams();
@@ -20,14 +34,37 @@ const MediaList = () => {
   const [mediaLoading, setMediaLoading] = useState(false);
   const [currentCategory, setCurrentCategory] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const [allPage, setAllPage] = useState(0);
+  const [genres, setGenres] = useState("");
+  const { genresList, movieGenresList } = useSelector(appStateSelector);
 
   const dispatch = useDispatch();
   const mediaCategories = useMemo(() => ["popular", "top_rated"], []);
   const category = ["popular", "top_rated"];
 
+  const searchFollowGenres = useCallback(async () => {
+    const list = await fetch(
+      `http://localhost:5000/api/${mediaType}/followGenres/${genres}`,
+    );
+    const data = await list.json();
+    dispatch(setMovieGenresList(data));
+    setMedias(
+      [...movieGenresList].splice(20 * (currentPage - 1), 20 * currentPage),
+    );
+  }, [mediaType, genres, dispatch, currentPage, movieGenresList]);
+
+  const onCategoryChange = (categoryIndex) => {
+    if (currentCategory === categoryIndex) return;
+    setMedias([]);
+    setCurrentPage(1);
+    setCurrentCategory(categoryIndex);
+  };
+
   useEffect(() => {
     dispatch(setAppState(mediaType));
     window.scrollTo(0, 0);
+    setGenres("");
+    setCurrentPage(1);
   }, [mediaType, dispatch]);
 
   useEffect(() => {
@@ -46,23 +83,22 @@ const MediaList = () => {
 
       if (err) toast.error(err.message);
       if (response) {
-        if (currentPage !== 1)
-          setMedias((m) => [...m, ...response.data.results]);
-        else setMedias([...response.data.results]);
+        setAllPage(response.data.total_pages);
+        setMedias([...response.data.results]);
       }
     };
 
-    getMedias();
-  }, [mediaType, currentCategory, currentPage, mediaCategories, dispatch]);
-
-  const onCategoryChange = (categoryIndex) => {
-    if (currentCategory === categoryIndex) return;
-    setMedias([]);
-    setCurrentPage(1);
-    setCurrentCategory(categoryIndex);
-  };
-
-  const onLoadMore = () => setCurrentPage(currentPage + 1);
+    if (genres !== "") searchFollowGenres();
+    else getMedias();
+  }, [
+    mediaType,
+    currentCategory,
+    currentPage,
+    mediaCategories,
+    dispatch,
+    searchFollowGenres,
+    genres,
+  ]);
 
   return (
     <>
@@ -70,6 +106,7 @@ const MediaList = () => {
         mediaType={mediaType}
         mediaCategory={mediaCategories[currentCategory]}
       />
+
       <Box sx={{ ...uiConfigs.style.mainContent }}>
         <Stack
           spacing={2}
@@ -83,6 +120,29 @@ const MediaList = () => {
           </Typography>
 
           <Stack direction="row" spacing={2}>
+            <Box>
+              {/* find movie follow genre */}
+              <FormControl sx={{ marginLeft: "10px" }}>
+                <InputLabel id="demo-simple-select-label">Genres</InputLabel>
+                <Select
+                  sx={{ width: "120px" }}
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={genres}
+                  label="Genres"
+                  onChange={(e) => setGenres(e.target.value)}
+                >
+                  {[...genresList].map((g) => {
+                    return (
+                      <MenuItem value={`${g.id}`} key={g.id}>
+                        {`${g.name}`}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
+            </Box>
+
             {category.map((cate, index) => (
               <Button
                 key={index}
@@ -105,13 +165,19 @@ const MediaList = () => {
         <MediaPage medias={medias} mediaType={mediaType} />
 
         <LoadingButton
-          sx={{ marginTop: 8 }}
+          sx={{ marginTop: 2 }}
           fullWidth
           color="primary"
           loading={mediaLoading}
-          onClick={onLoadMore}
         >
-          Load more
+          {genres !== "" ? (
+            <PaginationPage
+              setPage={setCurrentPage}
+              totalPage={Math.floor(movieGenresList.length / 20)}
+            />
+          ) : (
+            <PaginationPage setPage={setCurrentPage} totalPage={allPage} />
+          )}
         </LoadingButton>
       </Box>
     </>

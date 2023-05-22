@@ -25,7 +25,7 @@ const MediaSlide = ({ mediaType, mediaCategory }) => {
     <AutoSwiper>
       {medias.map((media, index) => (
         <SwiperSlide key={index}>
-          <Mediaitem media={media} mediaType={mediaType} />
+          <Mediaitem media={media} mediaType={mediaType} key={index} />
         </SwiperSlide>
       ))}
     </AutoSwiper>

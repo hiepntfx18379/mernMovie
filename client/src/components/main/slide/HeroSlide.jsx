@@ -7,18 +7,20 @@ import uiConfigs from "../../../config/ui.config";
 import CirculaRate from "../../common/CircularRate";
 import { genreApi } from "../../../api/modules/genre.api";
 import mediaApi from "../../../api/modules/media.api";
-import { useTheme } from "@emotion/react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { setLoading } from "../../../redux/loading/loadingSlide";
 import { Link } from "react-router-dom";
 import { Box, Button, Chip, Divider, Stack, Typography } from "@mui/material";
+import { appStateSelector } from "../../../redux/selector";
+import { setGenresList } from "../../../redux/app/appSlide";
 
 const HeroSlide = ({ mediaType, mediaCategory }) => {
   const dispatch = useDispatch();
   const [movie, setMovie] = useState([]);
   const [genres, setGenres] = useState([]);
+  const { getGen } = useSelector(appStateSelector);
 
   useEffect(() => {
     const getMedias = async () => {
@@ -28,7 +30,9 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
         page: 1,
       });
 
-      if (response) setMovie(response.data.results);
+      if (response) {
+        setMovie(response.data.results);
+      }
       if (err) toast.error(err.message);
       dispatch(setLoading(false));
     };
@@ -38,6 +42,7 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
       const { response, err } = await genreApi.getList({ mediaType });
       if (response) {
         setGenres(response.data.genres);
+        dispatch(setGenresList(response.data));
         getMedias();
       }
       if (err) {
@@ -47,7 +52,7 @@ const HeroSlide = ({ mediaType, mediaCategory }) => {
     };
 
     getGenres();
-  }, [mediaType, mediaCategory, dispatch]);
+  }, [mediaType, mediaCategory, dispatch, getGen]);
 
   return (
     <Box

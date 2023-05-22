@@ -1,5 +1,5 @@
 import express from "express";
-import { login, register } from "../controllers/authController.js";
+import { login, register, getLanguage } from "../controllers/authController.js";
 import userModel from "../models/userMode.js";
 import requestHandler from "../handlers/request.handler.js";
 import { body } from "express-validator";
@@ -27,7 +27,6 @@ authRoute.post(
     .withMessage("password minium 8 characters"),
   body("confirmPassword")
     .custom((value, { req }) => {
-      console.log(value ,"cf", req.body.password);
       if (value !== req.body.password)
         throw new Error("Confirm password not match");
       return true;
@@ -51,5 +50,7 @@ authRoute.post(
   requestHandler.validate,
   login
 );
+
+authRoute.get("/lang", getLanguage)
 
 export default authRoute;

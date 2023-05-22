@@ -6,6 +6,7 @@ const MediaVideoItem = ({ video }) => {
   const iframRef = useRef();
   useEffect(() => {
     const height = (iframRef.current.offsetWidth * 9) / 16 + "px";
+
     iframRef.current.setAttribute("height", height);
   }, []);
 
@@ -17,7 +18,7 @@ const MediaVideoItem = ({ video }) => {
     >
       <iframe
         key={video.key}
-        src={tmdbConfigs.youtubePath(video.key)}
+        src={`${tmdbConfigs.youtubePath(video.key)}?autoplay=1&mute=1`}
         ref={iframRef}
         width="100%"
         title={video.id}

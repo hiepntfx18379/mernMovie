@@ -4,7 +4,7 @@ import themeConfig from "./config/theme.config";
 import { ToastContainer } from "react-toastify";
 import { themeModeSelector } from "./redux/selector";
 import { CssBaseline } from "@mui/material";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import MainLayout from "./components/layout/MainLayout";
 import routes from "./routes/router";
 import PageWrapper from "./components/common/PageWrapper";
@@ -12,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import NotFound from "./pages/NotFound/NotFound";
 
 function App() {
   const { themeMode } = useSelector(themeModeSelector);
@@ -35,6 +36,7 @@ function App() {
 
       <BrowserRouter>
         <Routes>
+         
           <Route path="/" element={<MainLayout />}>
             {routes.map((route, index) =>
               route.index ? (
@@ -66,6 +68,9 @@ function App() {
               )
             )}
           </Route>
+          <Route path="*" element={ <Navigate to="/404" replace />} />
+          <Route path="/404" element={ <NotFound /> } />
+          
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

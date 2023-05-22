@@ -1,34 +1,15 @@
-const responseWithData = (res, statusCode, data, next) => {
-  return res.status(statusCode).json(data);
-};
+const error = (res) => res.status(500).json({ message: "Something wrong!!"})
 
-const error = (res) =>
-  responseWithData(res, 500, {
-    status: 500,
-    message: "Something wrong!!",
-  });
+const badRequest = (res, message) =>res.status(400).json(message)
 
-const badRequest = (res, message) =>
-  responseWithData(res, 400, {
-    status: 400,
-    message,
-  });
+const ok = (res, data) => res.status(200).json(data);
 
-const ok = (res, data) => responseWithData(res, 200, data);
+const created = (res, data) => res.status(200).json(data)
 
-const created = (res, data) => responseWithData(res, 201, data);
+const unauthorize = (res) => res.status(401).json({ message: "Unauthorized!!"})
 
-const unauthorize = (res) =>
-  responseWithData(res, 401, {
-    status: 401,
-    message: "Unauthorized!!",
-  });
-
-const notFound = (res) =>
-  responseWithData(res, 404, {
-    status: 404,
-    message: "Page not found!!",
-  });
+const notFound = (res) => res.status(404).json({ message: "Page not found!!"})
+  
 
 export default {
   error,

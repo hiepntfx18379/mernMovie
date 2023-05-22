@@ -1,3 +1,4 @@
+import { pageNotFound } from "./NotFoundRoute.js";
 import authRoute from "./authRoute.js";
 import mediaRoute from "./mediaRoute.js";
 import personRoute from "./personRoute.js";
@@ -10,4 +11,5 @@ export default function routes(app) {
   app.use("/api/:mediaType", mediaRoute);
   app.use("/api/person", personRoute);
   app.use("/api/review", reviewRoute);
+  app.all("*", pageNotFound)
 }

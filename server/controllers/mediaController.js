@@ -4,6 +4,7 @@ import favoriteModel from "../models/favoriteModel.js";
 import tmdbApi from "../tmdb/tmdb.api.js";
 import tokenMiddleware from "../middleware/token.middleware.js";
 import reviewModel from "../models/reviewModel.js";
+import *  as fs from 'fs'
 
 export const getList = async (req, res) => {
   try {
@@ -34,12 +35,13 @@ export const getGenres = async (req, res) => {
 
 export const search = async (req, res) => {
   try {
-    const { page, query } = req.query;
-    const { mediaType } = req.params;
+    const { page, query, language, year } = req.query;
+    const { mediaType } = req.params; 
     const response = await tmdbApi.mediaSearch({
       mediaType: mediaType === "people" ? "person" : mediaType,
       query,
       page,
+      language, year
     });
 
     return responseHandler.ok(res, response);
@@ -92,3 +94,19 @@ export const getDetail = async (req, res) => {
     responseHandler.error(res);
   }
 };
+
+const loadJSON = (path) => JSON.parse(fs.readFileSync(path, {
+  encoding: 'utf-8',
+}));
+
+export const searchMovieFollowGenres = async (req, res) =>{
+  try{
+    const { mediaType, genres } = req.params;
+    const listMovieData = await loadJSON("./data/movieList.json").splice(0,2000);
+    const data = listMovieData.filter(m => [...m.genre_ids].includes(+genres));
+
+    responseHandler.ok(res, data)
+  }catch{
+    responseHandler.error(res)
+  }
+}

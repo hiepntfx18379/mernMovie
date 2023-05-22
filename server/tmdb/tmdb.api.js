@@ -30,9 +30,9 @@ const tmdbApi = {
   mediaVideos: async ({ mediaType, media_id }) =>
     await axiosClient.get(tmdbEndpoints.mediaVideos({ mediaType, media_id })),
 
-  mediaSearch: async ({ mediaType, query, page }) => {
+  mediaSearch: async ({ mediaType, query, page, language, year }) => {
     return await axiosClient.get(
-      tmdbEndpoints.mediaSearch({ mediaType, query, page })
+      tmdbEndpoints.mediaSearch({ mediaType, query, page, language, year })
     );
   },
 
@@ -41,6 +41,10 @@ const tmdbApi = {
 
   personMedias: async ({ personId }) =>
     await axiosClient.get(tmdbEndpoints.personMedias({ personId })),
+
+  language: async () => {
+    return await axiosClient.get(tmdbEndpoints.language("configuration/languages"))
+  }
 };
 
 export default tmdbApi;
