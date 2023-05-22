@@ -67,7 +67,9 @@ const MediaSearch = () => {
 
   useEffect(() => {
     const getListLang = async () => {
-      const response = await fetch("http://localhost:5000/api/auth/lang");
+      const response = await fetch(
+        "https://redfox-server-movie.onrender.com/auth/lang",
+      );
       const listLang = await response.json();
       const listLangUsable = listLang.filter((m) =>
         ["Tiếng Việt", "English", "日本語", "한국어/조선말"].includes(m.name),

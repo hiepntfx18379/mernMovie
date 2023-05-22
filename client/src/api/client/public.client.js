@@ -1,7 +1,7 @@
 import axios from "axios";
 import queryString from "query-string";
 
-const baseURL = "http://localhost:5000/api";
+const baseURL = "https://redfox-server-movie.onrender.com"
 
 // Make api services
 const publicClient = axios.create({

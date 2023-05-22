@@ -44,7 +44,7 @@ const MediaList = () => {
 
   const searchFollowGenres = useCallback(async () => {
     const list = await fetch(
-      `http://localhost:5000/api/${mediaType}/followGenres/${genres}`,
+      `https://redfox-server-movie.onrender.com/${mediaType}/followGenres/${genres}`,
     );
     const data = await list.json();
     dispatch(setMovieGenresList(data));
