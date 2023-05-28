@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { userSelector } from "../../redux/selector";
 import { useEffect } from "react";
+import { setListLang } from "../../redux/app/appSlide";
 
 const MainLayout = () => {
   const dispatch = useDispatch();
@@ -37,6 +38,23 @@ const MainLayout = () => {
     if (user) getFRavorites();
     else dispatch(setListFavorites([]));
   }, [user, dispatch]);
+
+  useEffect(() => {
+    const getListLang = async () => {
+      const response = await fetch(
+        "https://redfox-server-movie.onrender.com/api/auth/lang",
+      );
+      const listLang = await response.json();
+      const listLangUsable = listLang.filter((m) =>
+        ["Tiếng Việt", "English", "日本語", "한국어/조선말"].includes(m.name),
+      );
+      dispatch(setListLang(listLangUsable));
+    };
+
+    try {
+      getListLang();
+    } catch {}
+  }, []);
 
   return (
     <>

@@ -13,6 +13,5 @@ mediaRoute.get("/genres", getGenres);
 mediaRoute.get("/search", search);
 mediaRoute.get("/getDetail/:media_id", getDetail);
 mediaRoute.get("/:mediaCategory", getList);
-mediaRoute.get("/followGenres/:genres", searchMovieFollowGenres )
-
+mediaRoute.get("/followGenres/:genres", searchMovieFollowGenres);
 export default mediaRoute;

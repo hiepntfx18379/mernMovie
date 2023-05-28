@@ -65,6 +65,8 @@ GET http://localhost:5000/api/movie/genres
 GET http://localhost:5000/api/movie/getDetail/157336
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NDhhMjhiMjM1ZDNkMTE2OGY0MDAyNSIsImlhdCI6MTY4MjQ4MTgyNiwiZXhwIjoxNjgyNTI1MDI2fQ.CFvTwgpVDgAO9HFabQnnQit2v1JSYCE3LIEh8jVDjcA
+###
+GET http://localhost:5000/api/movie/listVideos/502356
 
 ###
 
@@ -99,4 +101,4 @@ GET http://localhost:5000/api/person/15218/medias
 GET http://localhost:5000/api/movie/followGenres/28
 
 ###
-GET http://localhost:5000/api/auth/lang
+GET http://redfox-server-movie.onrender.com/auth/lang

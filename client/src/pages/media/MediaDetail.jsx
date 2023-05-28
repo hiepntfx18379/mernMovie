@@ -14,14 +14,9 @@ import tmdbConfigs from "../../api/configs/tmdb.config";
 import mediaApi from "../../api/modules/media.api";
 import favoriteApi from "../../api/modules/favorite.api";
 import { useEffect, useRef, useState } from "react";
-import { loadingSelector } from "../../redux/selector";
 import { setLoading } from "../../redux/loading/loadingSlide";
 import { setModalStatus } from "../../redux/modal/modalSlide";
-import {
-  removeFavorite,
-  addFavorite,
-  setListFavorites,
-} from "../../redux/user/userSlide";
+import { removeFavorite, addFavorite } from "../../redux/user/userSlide";
 import { toast } from "react-toastify";
 import CaseSlide from "../../components/main/slide/CastSlide";
 import favoriteUtils from "../../ulis/favorite.util";
@@ -29,7 +24,6 @@ import MediaVideosSlide from "../../components/main/slide/videos/MediaVideosSlid
 import BackdropSlide from "../../components/main/slide/backdrop/BackdropSlide";
 import Recommendation from "../../components/main/slide/recommendation/Recommendation";
 import MediaSlide from "../../components/main/slide/media/MediaSlide";
-import MediaReview from "../../components/main/slide/review/MediaReview";
 
 const MediaDetail = () => {
   const { mediaType, media_id } = useParams();
@@ -48,6 +42,7 @@ const MediaDetail = () => {
         mediaType,
         media_id,
       });
+
       dispatch(setLoading(false));
 
       if (response) {
@@ -256,7 +251,7 @@ const MediaDetail = () => {
         {/* videos demo */}
         <div ref={videoRef} style={{ paddingTop: "2rem" }}>
           <Container header="Videos">
-            <MediaVideosSlide videos={media.videos.results} />
+            <MediaVideosSlide videos={media.videos} />
           </Container>
         </div>
 
@@ -290,7 +285,11 @@ const MediaDetail = () => {
         </Container>
       </Box>
     </>
-  ) : null;
+  ) : (
+    <h1 style={{ textAlign: "center", fontSize: "55px", marginTop: "5rem" }}>
+      404 Not found film_id
+    </h1>
+  );
 };
 
 export default MediaDetail;

@@ -1,7 +1,7 @@
 import axios from "axios";
 import queryString from "query-string";
 
-const baseURL = "https://redfox-server-movie.onrender.com";
+const baseURL = "https://redfox-server-movie.onrender.com/api";
 
 // Make api services
 const privateClient = axios.create({
@@ -13,7 +13,6 @@ const privateClient = axios.create({
 
 privateClient.interceptors.request.use(
   async (config) => {
-    
     return {
       ...config,
       headers: {
@@ -24,7 +23,7 @@ privateClient.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 privateClient.interceptors.response.use(
@@ -34,7 +33,7 @@ privateClient.interceptors.response.use(
   },
   (error) => {
     return Promise.reject(error.message);
-  }
+  },
 );
 
 export default privateClient;

@@ -28,10 +28,10 @@ const MediaSearch = () => {
   const [mediaType, setMedidaType] = useState(mediaTypes[0]);
   const [medias, setMedias] = useState([]);
   const [page, setPage] = useState(1);
-  const [listLang, setListLang] = useState([]);
   const [language, setLanguage] = useState("ja");
   const [year, setYear] = useState(2020);
-  const { genresList } = useSelector(appStateSelector);
+  const [listLang, setListLang] = useState([]);
+  const { genresList, listLanguage } = useSelector(appStateSelector);
   const [genres, setGenres] = useState("");
 
   const yearArr = [];
@@ -59,34 +59,18 @@ const MediaSearch = () => {
           m.genre_ids.includes(genres),
         );
       }
-      console.log(response.data.results);
       if (page > 1) setMedias((m) => [...m, ...response.data.results]);
       else setMedias([...response.data.results]);
     }
   }, [mediaType, query, page, language, year, genres]);
 
   useEffect(() => {
-    const getListLang = async () => {
-      const response = await fetch(
-        "https://redfox-server-movie.onrender.com/auth/lang",
-      );
-      const listLang = await response.json();
-      const listLangUsable = listLang.filter((m) =>
-        ["Tiếng Việt", "English", "日本語", "한국어/조선말"].includes(m.name),
-      );
-
-      setListLang(listLangUsable);
-    };
-
-    getListLang();
-  }, []);
-
-  useEffect(() => {
     if (query.trim().length === 0) {
       setMedias([]);
       setPage(1);
+      setListLang(listLanguage);
     } else search();
-  }, [search, query, mediaType, page, language, year]);
+  }, [search, query, mediaType, page, language, year, listLanguage]);
 
   // reset and reload mediaType
   useEffect(() => {

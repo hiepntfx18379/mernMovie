@@ -4,11 +4,7 @@ import mediaApi from "../../api/modules/media.api";
 import uiConfigs from "../../config/ui.config";
 import HeroSlide from "../../components/main/slide/HeroSlide";
 import MediaPage from "../../components/main/slide/loadMore/MediaPage";
-import {
-  getGenres,
-  setAppState,
-  setMovieGenresList,
-} from "../../redux/app/appSlide";
+import { setAppState, setMovieGenresList } from "../../redux/app/appSlide";
 import { setLoading } from "../../redux/loading/loadingSlide";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -41,11 +37,10 @@ const MediaList = () => {
   const dispatch = useDispatch();
   const mediaCategories = useMemo(() => ["popular", "top_rated"], []);
   const category = ["popular", "top_rated"];
+  const path = "https://redfox-server-movie.onrender.com/api/";
 
   const searchFollowGenres = useCallback(async () => {
-    const list = await fetch(
-      `https://redfox-server-movie.onrender.com/${mediaType}/followGenres/${genres}`,
-    );
+    const list = await fetch(`${path}${mediaType}/followGenres/${genres}`);
     const data = await list.json();
     dispatch(setMovieGenresList(data));
     setMedias(

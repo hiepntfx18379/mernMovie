@@ -11,5 +11,5 @@ export default function routes(app) {
   app.use("/api/:mediaType", mediaRoute);
   app.use("/api/person", personRoute);
   app.use("/api/review", reviewRoute);
-  app.all("*", pageNotFound)
+  app.all("*", pageNotFound);
 }

@@ -7,7 +7,7 @@ const tmdbEndpoints = {
   // https://api.themoviedb.org/3/movie/{movie_id}/lists?api_key=<<api_key>>&language=en-US&page=1
   mediaList: ({ mediaType, mediaCategory, page }) => {
     // return format url: ${baseURL}${endPoint}?api_key=${keyApi}&${queryString}
-    return tmdbConfig.getUrl(`${mediaType}/${mediaCategory}`, {page});
+    return tmdbConfig.getUrl(`${mediaType}/${mediaCategory}`, { page });
   },
 
   // GET /movie/{movie_id}
@@ -52,7 +52,12 @@ const tmdbEndpoints = {
   // GET /search/movie or /search/tv
   // https://api.themoviedb.org/3/search/movie?api_key=[key]&language=en-US&page=1&include_adult=false&year=2014&query=mm
   mediaSearch: ({ mediaType, query, page, language, year }) => {
-    return tmdbConfig.getUrl(`search/${mediaType}`, { query, page, language, year });
+    return tmdbConfig.getUrl(`search/${mediaType}`, {
+      query,
+      page,
+      language,
+      year,
+    });
   },
 
   // GET /person/{person_id}
@@ -68,9 +73,8 @@ const tmdbEndpoints = {
   },
 
   language: (lang) => {
-    return tmdbConfig.getUrl(lang)
-  }
-
+    return tmdbConfig.getUrl(lang);
+  },
 };
 
 export default tmdbEndpoints;
