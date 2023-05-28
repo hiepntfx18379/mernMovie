@@ -3,7 +3,6 @@ import userModel from "../models/userMode.js";
 import favoriteModel from "../models/favoriteModel.js";
 import tmdbApi from "../tmdb/tmdb.api.js";
 import tokenMiddleware from "../middleware/token.middleware.js";
-import reviewModel from "../models/reviewModel.js";
 import * as fs from "fs";
 
 export const getList = async (req, res) => {
@@ -87,12 +86,6 @@ export const getDetail = async (req, res) => {
     const { mediaType, media_id } = req.params;
     const params = { mediaType, media_id };
     const media = await tmdbApi.mediaDetail(params);
-    console.log(media);
-
-    if (media.response.status === 404) {
-      responseHandler.badRequest(res, "Not found film_id parram");
-      return;
-    }
 
     const credits = await tmdbApi.mediaCredits(params);
     media.credits = credits;
@@ -118,11 +111,7 @@ export const getDetail = async (req, res) => {
         media.isFavorite = isFavorite !== null;
       }
     }
-    const review = await reviewModel
-      .find({ media_id })
-      .populate("user")
-      .sort("-createdAt");
-    media.review = review;
+
     return responseHandler.ok(res, media);
   } catch {
     responseHandler.error(res);
