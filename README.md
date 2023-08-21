@@ -1,4 +1,16 @@
 # Web app  MERN Movie
+# Giới thiệu
+Đây là 1 web app tìm và xem thông tin phim được gọi api từ bên thứ 3 "the movie database" (https://www.themoviedb.org/). Là bản nâng cấp của dự án react movie UI. Tự xây dựng máy chủ, gián tiếp lấy dữ liệu và gọi lại api đã được điều chỉnh lại. 
+Sau khi hoàn thành dự án full-stack. Tiến hành tạo đường dẫn máy và giao diện ở 2 phần khác nhau.
+- Triển khai máy chủ trên "render.com" với link máy chủ mới: https://redfox-server-movie.onrender.com/api
+- Triển khai giao diện người dùng trên netlify.com
+
+# Mục tiêu
+- Biết quy trình triển khai dự án hoàn chỉnh cả phía máy chủ và máy khách
+- Biết cách xử lý logic phía máy chủ và máy khách, hiểu cách chúng giao tiếp với nhau
+- Xử lý lỗi
+- Đưa dự án lên môi trường thật
+  
 # Miêu tả:
 - Xử lý dữ liệu có được nhờ restful api trong nodejs
 - Hiển thị dữ liệu lưu trong cơ sở dữ liệu trên bố cục trình duyệt
